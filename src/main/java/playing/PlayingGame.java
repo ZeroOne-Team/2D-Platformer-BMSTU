@@ -105,6 +105,10 @@ public class PlayingGame implements GamePanelInterface,
         playerManager.resetAll();
     }
 
+    public void resetDirBooleans() {
+        playerManager.resetDirBooleans();
+    }
+
     public LevelManager getLevelManager() {
         return levelManager;
     }
