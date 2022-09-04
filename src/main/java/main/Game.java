@@ -5,7 +5,7 @@ import java.awt.*;
 import static utilz.Constants.GameWindowConstants.FPS_SET;
 import static utilz.Constants.GameWindowConstants.UPS_SET;
 
-public class Game implements Runnable{
+public class Game implements Runnable {
 
     private final float scale = 1.0f;
 
