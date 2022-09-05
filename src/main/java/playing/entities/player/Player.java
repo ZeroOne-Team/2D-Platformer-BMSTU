@@ -40,7 +40,7 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        playerModuleManager.mouseClicked(e);
     }
 
     @Override

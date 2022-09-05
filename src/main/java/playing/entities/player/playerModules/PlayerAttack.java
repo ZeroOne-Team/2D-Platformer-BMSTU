@@ -55,7 +55,7 @@ public class PlayerAttack extends PlayerModule
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.ATTACK);
     }
 
 }
