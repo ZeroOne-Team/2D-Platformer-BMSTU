@@ -47,8 +47,10 @@ public class PlayerAttack extends PlayerModule
     }
     protected void drawAttackBox(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         g.setColor(Color.red);
-        g.drawRect((int) ((attackBox.x - lvlOffsetX) * scale), (int) ((attackBox.y - lvlOffsetY) * scale),
-                (int) (attackBox.width * scale), (int) (attackBox.height * scale));
+        g.drawRect((int) ((attackBox.x - lvlOffsetX) * scale),
+                (int) ((attackBox.y - lvlOffsetY) * scale),
+                (int) (attackBox.width * scale),
+                (int) (attackBox.height * scale));
     }
 
     @Override
