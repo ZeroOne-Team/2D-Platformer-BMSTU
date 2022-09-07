@@ -1,5 +1,6 @@
 package playing.entities.player;
 
+import gamestates.playingstates.EnumPlayState;
 import playing.PlayingDrawInterface;
 import playing.PlayingKeyListenerInterface;
 import playing.PlayingMouseListenerInterface;
@@ -19,7 +20,7 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
     private PlayerModuleManager playerModuleManager;
 
     public Player(PlayerManager playerManager, int x, int y) {
-        super(x, y);
+        super(x, y, 20, 27);
         this.playerManager = playerManager;
         initClasses();
     }
@@ -40,7 +41,7 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        playerModuleManager.mouseClicked(e);
     }
 
     @Override
@@ -57,10 +58,13 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
         playerModuleManager.resetAll();
     }
 
-    public PlayerModuleManager getPlayerModulesManager() {
-        return playerModuleManager;
+    public void resetDirBooleans() {
+        playerModuleManager.resetDirBooleans();
     }
 
+    public void kill() {
+        EnumPlayState.state = EnumPlayState.GAME_OVER;
+    }
     public boolean IsPlayerOnFloor(Rectangle2D.Double hitBox) {
         return playerManager.IsPlayerOnFloor(hitBox);
     }

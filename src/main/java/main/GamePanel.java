@@ -28,6 +28,7 @@ public class GamePanel extends JPanel {
         int GAME_HEIGHT = (int) (GAME_HEIGHT_DEFAULT * scale);
         Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         setPreferredSize(size);
+        System.out.println("size : " + GAME_WIDTH + " : " + GAME_HEIGHT);
     }
 
     private void initInputs() {
@@ -50,4 +51,7 @@ public class GamePanel extends JPanel {
         return game;
     }
 
+    public void windowFocusLost() {
+        game.windowFocusLost();
+    }
 }

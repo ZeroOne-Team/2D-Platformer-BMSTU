@@ -19,11 +19,11 @@ public class PlayerMove extends PlayerModule implements PlayingKeyListenerInterf
     private boolean onFloor;
 
     private final float speedWalk = 1.f;
-    private final float speedJump = -2.25f;
+    private final float speedJump = -2.6f;
     private float speedInAir;
     private float speedInWater;
     private float ySpeed = 0;
-    float xSpeed = 0;
+    private float xSpeed = 0;
 
     public PlayerMove(PlayerModuleManager playerModuleManager) {
         super(playerModuleManager);
@@ -35,8 +35,7 @@ public class PlayerMove extends PlayerModule implements PlayingKeyListenerInterf
     }
 
     private void updatePos() {
-
-
+//        playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.IDLE);
 
         if (jump) {
             if(onFloor) {
@@ -65,10 +64,19 @@ public class PlayerMove extends PlayerModule implements PlayingKeyListenerInterf
 
             if (playerModuleManager.CanMoveHere(newHitBox)) {
                 updateYPos(ySpeed);
+
+                if (ySpeed > 0) {
+                    playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.FALLING);
+                } else if (ySpeed < 0) {
+                    playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.JUMP);
+                } else {
+                    playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.IDLE);
+                }
                 ySpeed += GRAVITY;
             } else {
                 if (ySpeed > 0) {
                     onFloor = true;
+                    playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
@@ -80,6 +88,15 @@ public class PlayerMove extends PlayerModule implements PlayingKeyListenerInterf
                 oldHitBox.width, oldHitBox.height);
         if (playerModuleManager.CanMoveHere(newHitBox)) {
             updateXPos(xSpeed);
+        }
+        if (xSpeed == 0) {
+            if (playerModuleManager.getPlayerAnimation().getAnimationState() == PlayerAnimation.AnimationState.RUNNING) {
+                playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.IDLE);
+            }
+        } else {
+            if (playerModuleManager.getPlayerAnimation().getAnimationState() == PlayerAnimation.AnimationState.IDLE) {
+                playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.RUNNING);
+            }
         }
         xSpeed = 0;
         moving = true;
@@ -151,6 +168,12 @@ public class PlayerMove extends PlayerModule implements PlayingKeyListenerInterf
 
     public boolean isJump() {
         return jump;
+    }
+
+    public void resetDirBooleans() {
+        setJump(false);
+        setRight(false);
+        setLeft(false);
     }
 
 }

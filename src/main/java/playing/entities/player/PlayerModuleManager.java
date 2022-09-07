@@ -23,7 +23,8 @@ public class PlayerModuleManager implements PlayingUpdateInterface, PlayingDrawI
     private PlayerHitBox playerHitBox;
     private PlayerMove playerMove;
     private PlayerAttack playerAttack;
-    private PlayerHealth playerHealth;
+    private PlayerStatusBar playerStatusBar;
+    private PlayerAnimation playerAnimation;
 
     public PlayerModuleManager(Player player) {
         this.player = player;
@@ -40,6 +41,8 @@ public class PlayerModuleManager implements PlayingUpdateInterface, PlayingDrawI
                 (int) (playerHitBox.getHitBox().x + playerHitBox.getHitBox().width) + 3,
                 (int) playerHitBox.getHitBox().y, 20 ,20);
         playerMove = new PlayerMove(this);
+        playerAnimation = new PlayerAnimation(this);
+        playerStatusBar = new PlayerStatusBar(this);
     }
 
     public void setPlayerX(double x) {
@@ -58,17 +61,23 @@ public class PlayerModuleManager implements PlayingUpdateInterface, PlayingDrawI
         return (int) player.getY();
     }
 
+    public void drawHitBox(Graphics g, float scale, int LvlOffsetX, int LvlOffsetY) {
+        player.drawHitBox(g, scale, LvlOffsetX, LvlOffsetY);
+    }
+
     @Override
     public void update() {
         playerMove.update();
         playerAttack.update();
+        playerAnimation.update();
     }
 
     @Override
     public void draw(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         playerHitBox.draw(g, scale, lvlOffsetX, lvlOffsetY);
         playerAttack.draw(g, scale, lvlOffsetX, lvlOffsetY);
-        playerMove.draw(g, scale, lvlOffsetX, lvlOffsetY);
+        playerAnimation.draw(g, scale, lvlOffsetX, lvlOffsetY);
+        playerStatusBar.draw(g, scale, lvlOffsetX, lvlOffsetY);
     }
 
     @Override
@@ -110,8 +119,16 @@ public class PlayerModuleManager implements PlayingUpdateInterface, PlayingDrawI
         return playerAttack;
     }
 
+    public PlayerAnimation getPlayerAnimation() {
+        return playerAnimation;
+    }
+
     public void resetAll() {
 
+    }
+
+    public void resetDirBooleans() {
+        playerMove.resetDirBooleans();
     }
 
     public boolean IsPlayerOnFloor() {

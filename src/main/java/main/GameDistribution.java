@@ -114,7 +114,16 @@ public class GameDistribution implements MainGameInterface, MouseListener, Mouse
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        switch (EnumGameState.state) {
+            case PLAYING:
+                playing.mouseDragged(e, scale);
+                break;
+            case MENU:
+                menu.mouseDragged(e, scale);
+            case QUIT:
+            default:
+                break;
+        }
     }
 
     @Override
@@ -162,4 +171,8 @@ public class GameDistribution implements MainGameInterface, MouseListener, Mouse
         }
     }
 
+    public void windowFocusLost() {
+        if (EnumGameState.state == EnumGameState.PLAYING)
+            playing.resetDirBooleans();
+    }
 }

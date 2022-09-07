@@ -2,14 +2,18 @@ package playing.levels;
 
 import playing.PlayingDrawInterface;
 import playing.PlayingUpdateInterface;
+import playing.entities.statics.Portal;
+import playing.entities.statics.Spike;
+import playing.levels.clouds.CloudManager;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import static utilz.Constants.GameWindowConstants.*;
-import static utilz.Constants.TextureConstants.Level.LEVEL_LOCATION_TEXTURES;
-import static utilz.Constants.TextureConstants.Level.LVL_TEXTURES_PNG;
+import static utilz.Constants.LvlConstants.Entity.Object.*;
+import static utilz.Constants.TextureConstants.Level.*;
 
 public class Level implements PlayingUpdateInterface, PlayingDrawInterface {
 
@@ -17,16 +21,22 @@ public class Level implements PlayingUpdateInterface, PlayingDrawInterface {
     private BufferedImage[] levelSprite;
     private int[][] lvlData;
 
+    private BufferedImage backgroundImg;
+
+    private CloudManager cloudManager;
+
     private int maxLvlOffsetX, maxLvlOffsetY;
 
     public Level(BufferedImage levelImg) {
         this.levelImg = levelImg;
-        GetLevelData(levelImg);
+        GetLevelData();
+        loadBackgroundImages();
         calcLvlOffset();
         importOutsideSprites();
+        cloudManager = new CloudManager();
     }
 
-    private void GetLevelData(BufferedImage levelImg) {
+    private void GetLevelData() {
         int[][] lvlData = new int[levelImg.getHeight()][levelImg.getWidth()];
 
         for (int j = 0; j < levelImg.getHeight(); j++)
@@ -41,6 +51,10 @@ public class Level implements PlayingUpdateInterface, PlayingDrawInterface {
         this.lvlData = lvlData;
     }
 
+    private void loadBackgroundImages() {
+        backgroundImg = LoadSave.GetSpriteAtlas(LEVEL_LOCATION_TEXTURES, LVL_BACKGROUND_PNG);
+    }
+
     private void calcLvlOffset() {
         int lvlTilesWideX = levelImg.getWidth();
         int maxTilesOffsetX = lvlTilesWideX - TILES_IN_WIDTH;
@@ -51,27 +65,31 @@ public class Level implements PlayingUpdateInterface, PlayingDrawInterface {
         maxLvlOffsetY = TILE_SIZE_DEFAULT * maxTilesOffsetY;
     }
 
+
     private void importOutsideSprites() {
         BufferedImage img = LoadSave.GetSpriteAtlas(LEVEL_LOCATION_TEXTURES, LVL_TEXTURES_PNG);
         levelSprite = new BufferedImage[48];
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 12; i++) {
-                int index = j*12 + i;
-                levelSprite[index] = img.getSubimage(i*32, j*32, 32, 32);
+                int index = j * 12 + i;
+                levelSprite[index] = img.getSubimage(i * 32, j * 32, 32, 32);
             }
         }
     }
 
     @Override
     public void update() {
-
+        cloudManager.update();
     }
 
 
     @Override
     public void draw(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
+        drawBackground(g, scale, lvlOffsetX, lvlOffsetY);
+        cloudManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
         drawLvlSprite(g, scale, lvlOffsetX, lvlOffsetY);
     }
+
 
     private void drawLvlSprite(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         for (int j = 0; j < lvlData.length; j++) {
@@ -85,6 +103,13 @@ public class Level implements PlayingUpdateInterface, PlayingDrawInterface {
         }
     }
 
+    private void drawBackground(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
+        g.drawImage(backgroundImg, 0, 0,
+                (int) (GAME_WIDTH_DEFAULT * scale),
+                (int) (GAME_HEIGHT_DEFAULT * scale),
+                null);
+    }
+
     public int[][] getLvlData() {
         return lvlData;
     }
@@ -95,5 +120,43 @@ public class Level implements PlayingUpdateInterface, PlayingDrawInterface {
 
     public int getMaxLvlOffsetY() {
         return maxLvlOffsetY;
+    }
+
+    public ArrayList<Spike> getSpikes() {
+        ArrayList<Spike> list = new ArrayList<>();
+
+        for (int j = 0; j < levelImg.getHeight(); j++) {
+            for (int i = 0; i < levelImg.getWidth(); i++) {
+                Color color = new Color(levelImg.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == OBJECT_INDEX_SPIKE_DOWN) {
+                    list.add(new Spike(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT, Spike.SpikeState.DOWN));
+                } else if (value == OBJECT_INDEX_SPIKE_UP) {
+                    list.add(new Spike(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT, Spike.SpikeState.UP));
+                } else if (value == OBJECT_INDEX_SPIKE_LEFT) {
+                    list.add(new Spike(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT, Spike.SpikeState.LEFT));
+                } else if (value == OBJECT_INDEX_SPIKE_RIGHT) {
+                    list.add(new Spike(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT, Spike.SpikeState.RIGHT));
+                }
+            }
+        }
+
+        return list;
+    }
+
+    public ArrayList<Portal> getPortals() {
+        ArrayList<Portal> list = new ArrayList<>();
+
+        for (int j = 0; j < levelImg.getHeight(); j++) {
+            for (int i = 0; i < levelImg.getWidth(); i++) {
+                Color color = new Color(levelImg.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == OBJECT_INDEX_PORTAL) {
+                    list.add(new Portal(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                }
+            }
+        }
+
+        return list;
     }
 }

@@ -5,9 +5,6 @@ import playing.PlayingKeyListenerInterface;
 import playing.PlayingMouseListenerInterface;
 import playing.PlayingUpdateInterface;
 import playing.entities.PlayerLevelManager;
-import playing.entities.player.manager.PMInPut;
-import playing.entities.player.manager.PMListener;
-import playing.entities.player.manager.PMOutPut;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -21,10 +18,6 @@ public class PlayerManager implements PlayingUpdateInterface, PlayingDrawInterfa
 
     private Player player;
 
-    private PMInPut pmInPut;
-    private PMOutPut pmOutPut;
-    private PMListener pmListener;
-
     public PlayerManager(PlayerLevelManager playerLevelManager) {
         this.playerLevelManager = playerLevelManager;
         initClasses();
@@ -32,9 +25,6 @@ public class PlayerManager implements PlayingUpdateInterface, PlayingDrawInterfa
 
     private void initClasses() {
         player = new Player(this, 100, 250);
-        pmInPut = new PMInPut(this);
-        pmOutPut = new PMOutPut(this);
-        pmListener = new PMListener(this);
     }
 
     @Override
@@ -48,7 +38,11 @@ public class PlayerManager implements PlayingUpdateInterface, PlayingDrawInterfa
     }
 
     public void resetAll() {
-        player.resetAll();
+        player = new Player(this, 100, 250);
+    }
+
+    public void resetDirBooleans() {
+        player.resetDirBooleans();
     }
 
     public Player getPlayer() {
@@ -57,17 +51,17 @@ public class PlayerManager implements PlayingUpdateInterface, PlayingDrawInterfa
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        pmListener.mouseClicked(e);
+        player.mouseClicked(e);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        pmListener.keyPressed(e);
+        player.keyPressed(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        pmListener.keyReleased(e);
+        player.keyReleased(e);
     }
 
     public boolean IsPlayerOnFloor(Rectangle2D.Double hitBox) {
