@@ -50,4 +50,8 @@ public class Spike extends StaticEntity implements PlayingDrawInterface {
                 null);
 
     }
+
+    public Rectangle2D.Double getHitBox() {
+        return hitBox;
+    }
 }
