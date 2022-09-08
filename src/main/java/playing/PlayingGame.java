@@ -150,4 +150,8 @@ public class PlayingGame implements GamePanelInterface,
     public Rectangle2D.Double getPlayerHitBox() {
         return playerManager.getPlayerHitBox();
     }
+
+    public void attackPlayer(int damage) {
+        playerManager.attackPlayer(damage);
+    }
 }

@@ -111,4 +111,8 @@ public class CrabbyAnimation extends CrabbyModule implements PlayingDrawInterfac
     public AnimationState getAnimationState() {
         return animationState;
     }
+
+    public int getAniIndex() {
+        return aniIndex;
+    }
 }

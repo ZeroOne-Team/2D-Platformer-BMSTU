@@ -72,4 +72,7 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
         return playerManager.CanMoveHere(hitBox);
     }
 
+    public void attackPlayer(int damage) {
+        playerModuleManager.attackPlayer(damage);
+    }
 }

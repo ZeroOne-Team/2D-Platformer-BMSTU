@@ -15,6 +15,7 @@ public abstract class DynamicEntity extends Entity {
     public DynamicEntity(double x, double y, double width, double height) {
         super(x, y, width, height);
     }
+
     public void setEnemyManager(EnemyManager enemyManager) {
         this.enemyManager = enemyManager;
     }
@@ -34,6 +35,7 @@ public abstract class DynamicEntity extends Entity {
     public boolean canSeePlayer(float range) {
         return enemyManager.canSeePlayer(getHitBox(), range);
     }
+
     public boolean isPlayerInRange(float range) {
         return enemyManager.isPlayerInRange(getHitBox(), range);
     }
@@ -42,7 +44,12 @@ public abstract class DynamicEntity extends Entity {
         return enemyManager.wherePlayerX(getHitBox());
     }
 
+    public void attackPlayer(int damage) {
+        enemyManager.attackPlayer(damage);
+    }
 
-
+    public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
+        return enemyManager.checkPlayerHit(attackBox);
+    }
 
 }

@@ -138,4 +138,8 @@ public class PlayerModuleManager implements PlayingUpdateInterface, PlayingDrawI
     public boolean CanMoveHere(Rectangle2D.Double hitBox) {
         return player.CanMoveHere(hitBox);
     }
+
+    public void attackPlayer(int damage) {
+        playerStatusBar.decreasePower(damage);
+    }
 }
