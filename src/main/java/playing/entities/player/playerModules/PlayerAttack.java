@@ -29,7 +29,7 @@ public class PlayerAttack extends PlayerModule
         updateAttackBox();
     }
     private void updateAttackBox() {
-        Rectangle2D.Double hitBox = playerModuleManager.getPlayerHitBox().getHitBox();
+        Rectangle2D.Double hitBox = playerModuleManager.getHitBox();
         boolean right = playerModuleManager.getPlayerMove().isRight();
         boolean left = playerModuleManager.getPlayerMove().isLeft();
 
@@ -56,6 +56,8 @@ public class PlayerAttack extends PlayerModule
     @Override
     public void mouseClicked(MouseEvent e) {
         playerModuleManager.getPlayerAnimation().setAnimationState(PlayerAnimation.AnimationState.ATTACK);
+        int damage = 50;
+        playerModuleManager.attackEnemy(attackBox, damage);
     }
 
 }
