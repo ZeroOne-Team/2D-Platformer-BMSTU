@@ -3,7 +3,7 @@ package playing.levels;
 
 import playing.PlayingDrawInterface;
 import playing.PlayingUpdateInterface;
-import playing.entities.PlayerLevelManager;
+import playing.entities.EntityLevelManager;
 import utilz.LoadSave;
 
 import java.awt.*;
@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class LevelManager implements PlayingUpdateInterface, PlayingDrawInterface {
 
-    private PlayerLevelManager playerLevelManager;
+    private EntityLevelManager playerLevelManager;
 
     private ArrayList<Level> levels;
     private int lvlIndex = 0;
 
-    public LevelManager(PlayerLevelManager playerLevelManager) {
+    public LevelManager(EntityLevelManager playerLevelManager) {
         this.playerLevelManager = playerLevelManager;
         buildAllLevels();
     }

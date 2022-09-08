@@ -43,7 +43,7 @@ public class PlayerAttack extends PlayerModule
 
     @Override
     public void draw(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
-        drawAttackBox(g, scale, lvlOffsetX, lvlOffsetY);
+//        drawAttackBox(g, scale, lvlOffsetX, lvlOffsetY);
     }
     protected void drawAttackBox(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         g.setColor(Color.red);
