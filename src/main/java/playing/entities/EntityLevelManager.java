@@ -80,6 +80,10 @@ public class EntityLevelManager {
         return attackBox.intersects(playerHitBox);
     }
 
+    public void attackEnemy(Rectangle2D.Double attackBox, int damage) {
+        playingGame.attackEnemy(attackBox,damage);
+    }
+
     private boolean IsSightClear(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Double secondHitbox, int yTile) {
         int firstXTile = (int) (firstHitbox.x / TILE_SIZE_DEFAULT);
         int secondXTile = (int) (secondHitbox.x  / TILE_SIZE_DEFAULT);

@@ -57,7 +57,6 @@ public abstract class Entity {
             hitBoxTexture.x = hitBoxTexture.x - (hitBox.x - x);
         }
         hitBox.x = x;
-
     }
     public void setY(double y) {
         if (hitBoxTexture != null) {
