@@ -1,5 +1,6 @@
 package playing.entities.player.playerModules;
 
+import gamestates.playingstates.EnumPlayState;
 import playing.PlayingDrawInterface;
 import playing.PlayingUpdateInterface;
 import playing.entities.player.PlayerModuleManager;
@@ -10,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static playing.entities.player.playerModules.PlayerAnimation.AnimationState.*;
-import static utilz.Constants.GameConstants.ANI_SPEED;
+import static utilz.Constants.GameConstants.ANI_SPEED_ENEMY;
 import static utilz.Constants.TextureConstants.Player.PLAYER_LOCATION_TEXTURES;
 import static utilz.Constants.TextureConstants.Player.PLAYER_SPRITES_PNG;
 
@@ -34,6 +35,8 @@ public class PlayerAnimation extends PlayerModule implements PlayingUpdateInterf
     private int aniTick, aniIndex;
     private int flipW = 1;
     private int flipX = 0;
+
+    private boolean dead;
 
 
     public PlayerAnimation(PlayerModuleManager playerModuleManager) {
@@ -62,10 +65,13 @@ public class PlayerAnimation extends PlayerModule implements PlayingUpdateInterf
 
     private void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED) {
+        if (aniTick >= ANI_SPEED_ENEMY) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount()) {
+                if (animationState == DEAD) {
+                    EnumPlayState.state = EnumPlayState.GAME_OVER;
+                }
                 animationState = IDLE;
                 aniIndex = 0;
             }
@@ -87,7 +93,7 @@ public class PlayerAnimation extends PlayerModule implements PlayingUpdateInterf
 
     @Override
     public void draw(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
-        Rectangle2D.Double hitBox = playerModuleManager.getPlayerHitBox().getHitBox();
+        Rectangle2D.Double hitBox = playerModuleManager.getHitBox();
         BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
                 (int) ((hitBox.x - 21 - lvlOffsetX + flipX) * scale),
@@ -119,6 +125,12 @@ public class PlayerAnimation extends PlayerModule implements PlayingUpdateInterf
     }
 
     public void setAnimationState(AnimationState state) {
+        if (dead) {
+            return;
+        }
+        if (state == DEAD) {
+            dead = true;
+        }
         animationState = state;
         aniIndex = 0;
     }

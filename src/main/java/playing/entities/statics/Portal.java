@@ -7,14 +7,11 @@ import utilz.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static utilz.Constants.GameConstants.ANI_SPEED;
+import static utilz.Constants.GameConstants.ANI_SPEED_ENEMY;
 import static utilz.Constants.GameWindowConstants.TILE_SIZE_DEFAULT;
 import static utilz.Constants.LvlConstants.Entity.Portal.PORTAL_HEIGHT_DEFAULT;
 import static utilz.Constants.LvlConstants.Entity.Portal.PORTAL_WIDTH_DEFAULT;
-import static utilz.Constants.TextureConstants.Entity.ENTITY_LOCATION_TEXTURES;
-import static utilz.Constants.TextureConstants.Entity.PORTAL_ATLAS_PNG;
-import static utilz.Constants.TextureConstants.Player.PLAYER_LOCATION_TEXTURES;
-import static utilz.Constants.TextureConstants.Player.PLAYER_SPRITES_PNG;
+import static utilz.Constants.TextureConstants.Entity.*;
 
 public class Portal extends ObjectEntity implements PlayingDrawInterface, PlayingUpdateInterface {
 
@@ -45,7 +42,7 @@ public class Portal extends ObjectEntity implements PlayingDrawInterface, Playin
 
     private void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED * 2) {
+        if (aniTick >= ANI_SPEED_ENEMY * 2) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= portalAnimation.length) {

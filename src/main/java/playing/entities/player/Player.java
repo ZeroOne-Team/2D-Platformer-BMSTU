@@ -63,7 +63,7 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
     }
 
     public void kill() {
-        EnumPlayState.state = EnumPlayState.GAME_OVER;
+        playerModuleManager.kill();
     }
     public boolean IsPlayerOnFloor(Rectangle2D.Double hitBox) {
         return playerManager.IsPlayerOnFloor(hitBox);
@@ -72,4 +72,19 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
         return playerManager.CanMoveHere(hitBox);
     }
 
+    public void attackPlayer(int damage) {
+        playerModuleManager.attackPlayer(damage);
+    }
+
+    public void attackEnemy(Rectangle2D.Double attackBox, int damage) {
+        playerManager.attackEnemy(attackBox, damage);
+    }
+
+    public void addCoin() {
+        playerModuleManager.addCoin();
+    }
+
+    public int getCoins() {
+        return playerModuleManager.getCoins();
+    }
 }

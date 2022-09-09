@@ -1,5 +1,7 @@
 package utilz;
 
+import static utilz.Constants.GameWindowConstants.TILE_SIZE_DEFAULT;
+
 public class Constants {
 
     public static final class GameWindowConstants {
@@ -20,7 +22,9 @@ public class Constants {
 
     public static class GameConstants {
         public final static float GRAVITY = 0.035f;
-        public static final float ANI_SPEED = 25;
+        public static final float ANI_SPEED_ENEMY = 25;
+
+        public static final float ANI_SPEED_OBJECT = 50;
 
     }
 
@@ -103,15 +107,39 @@ public class Constants {
                 public static final int OBJECT_INDEX_SPIKE_UP = 2;
                 public static final int OBJECT_INDEX_SPIKE_LEFT = 3;
                 public static final int OBJECT_INDEX_SPIKE_RIGHT = 4;
+                public static final int OBJECT_INDEX_COIN = 65;
                 public static final int OBJECT_INDEX_PORTAL = 108;
             }
 
+            public static final class Enemy {
+                public static final int VOID = 0;
+                public static final int ENEMY_INDEX_CRABBY = 1;
+            }
+
             public static final class Spike {
-                public static final int SPIKE_SIZE_DEFAULT = 32;
+                public static final int SPIKE_WIDTH_TEXTURE = 32;
+                public static final int SPIKE_HEIGHT_TEXTURE = 32;
+                public static final int SPIKE_WIDTH_DEFAULT_UD = 32;
+                public static final int SPIKE_HEIGHT_DEFAULT_UD = 16;
+                public static final int SPIKE_WIDTH_DEFAULT_LR = 16;
+                public static final int SPIKE_HEIGHT_DEFAULT_LR = 32;
             }
             public static final class Portal {
                 public static final int PORTAL_WIDTH_DEFAULT = 32;
                 public static final int PORTAL_HEIGHT_DEFAULT = 64;
+            }
+
+            public static final class Coin {
+                public static final int COIN_WIDTH_DEFAULT = 32;
+                public static final int COIN_HEIGHT_DEFAULT = 32;
+            }
+
+            public static final class CRABBY {
+                public static final int CRABBY_WIDTH_DEFAULT = 22;
+                public static final int CRABBY_HEIGHT_DEFAULT = 19;
+
+                public static final int CRABBY_VIEW_RANGE = TILE_SIZE_DEFAULT * 5;
+                public static final int CRABBY_ATTACK_RANGE = TILE_SIZE_DEFAULT;
             }
         }
 
@@ -171,6 +199,8 @@ public class Constants {
             public static final String LVL_BACKGROUND_PNG = "lvl_background.png";
             public static final String LVL_CLOUDS_BIG_PNG = "lvl_clouds_big.png";
             public static final String LVL_CLOUDS_SMALL_PNG = "lvl_clouds_small.png";
+            public static final String LVL_KONOVALOV_PNG = "lvl_konovalov.png";
+            public static final String LVL_MADINA_PNG = "lvl_madina.png";
 
         }
 
@@ -185,8 +215,26 @@ public class Constants {
         public static final class Entity {
             public static final String ENTITY_LOCATION_TEXTURES = "entity";
 
+            public static final String COIN_ATLAS_PNG = "coin_atlas.png";
             public static final String TRAP_ATLAS_PNG = "trap_atlas.png";
             public static final String PORTAL_ATLAS_PNG = "portal_atlas.png";
+            public static final String CRABBY_SPRITE_PNG = "crabby_sprite.png";
+        }
+
+        public static final class Number {
+            public static final String NUMBER_LOCATION_TEXTURES = "number";
+
+            public static final String NUMBER_0_PNG = "number_0.png";
+            public static final String NUMBER_1_PNG = "number_1.png";
+            public static final String NUMBER_2_PNG = "number_2.png";
+            public static final String NUMBER_3_PNG = "number_3.png";
+            public static final String NUMBER_4_PNG = "number_4.png";
+            public static final String NUMBER_5_PNG = "number_5.png";
+            public static final String NUMBER_6_PNG = "number_6.png";
+            public static final String NUMBER_7_PNG = "number_7.png";
+            public static final String NUMBER_8_PNG = "number_8.png";
+            public static final String NUMBER_9_PNG = "number_9.png";
+
         }
 
     }

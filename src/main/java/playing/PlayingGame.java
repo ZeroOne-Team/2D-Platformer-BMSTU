@@ -1,7 +1,7 @@
 package playing;
 
 import gamestates.GamePanelInterface;
-import playing.entities.PlayerLevelManager;
+import playing.entities.EntityLevelManager;
 import playing.entities.dynamics.EnemyManager;
 import playing.entities.player.PlayerManager;
 import playing.entities.statics.ObjectManager;
@@ -11,6 +11,7 @@ import playing.levels.LevelManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 
 import static utilz.Constants.GameWindowConstants.*;
 
@@ -24,7 +25,7 @@ public class PlayingGame implements GamePanelInterface,
     private EnemyManager enemyManager;
 
     private ObjectManager objectManager;
-    private PlayerLevelManager playerLevelManager;
+    private EntityLevelManager entityLevelManager;
 
     private int lvlOffsetX, lvlOffsetY;
     private int maxLvlOffsetX, maxLvlOffsetY;
@@ -35,10 +36,10 @@ public class PlayingGame implements GamePanelInterface,
     }
 
     private void initClasses() {
-        playerLevelManager = new PlayerLevelManager(this);
-        levelManager = new LevelManager(playerLevelManager);
+        entityLevelManager = new EntityLevelManager(this);
+        levelManager = new LevelManager(entityLevelManager);
         currentLevel = levelManager.getCurrentLevel();
-        playerManager = new PlayerManager(playerLevelManager);
+        playerManager = new PlayerManager(entityLevelManager);
 
         initCurrentLevelManager();
 
@@ -46,8 +47,8 @@ public class PlayingGame implements GamePanelInterface,
     }
 
     private void initCurrentLevelManager() {
-        enemyManager = new EnemyManager(this, currentLevel);
-        objectManager = new ObjectManager(this, currentLevel);
+        enemyManager = new EnemyManager(entityLevelManager, currentLevel);
+        objectManager = new ObjectManager(entityLevelManager, currentLevel);
     }
 
     private void calcLvlOffset() {
@@ -58,7 +59,8 @@ public class PlayingGame implements GamePanelInterface,
     public void nextLevel() {
         levelManager.nextLevel();
         currentLevel = levelManager.getCurrentLevel();
-        playerManager = new PlayerManager(playerLevelManager);
+        playerManager = new PlayerManager(entityLevelManager);
+        playerManager.setSpawnPlayer(100, 100);
 
         initCurrentLevelManager();
         calcLvlOffset();
@@ -73,6 +75,7 @@ public class PlayingGame implements GamePanelInterface,
         checkCloseToBorder();
         objectManager.checkSpikesTouched(playerManager.getPlayer());
         objectManager.checkPortalTouched(playerManager.getPlayer());
+        objectManager.checkCoinsTouched(playerManager.getPlayer());
     }
 
     private void checkCloseToBorder() {
@@ -134,8 +137,7 @@ public class PlayingGame implements GamePanelInterface,
 
     public void resetAll() {
         playerManager.resetAll();
-        enemyManager.resetAll();
-        objectManager.resetAll();
+        initCurrentLevelManager();
     }
 
     public void resetDirBooleans() {
@@ -146,7 +148,15 @@ public class PlayingGame implements GamePanelInterface,
         return levelManager;
     }
 
-    public PlayerManager getPlayerManager() {
-        return playerManager;
+    public Rectangle2D.Double getPlayerHitBox() {
+        return playerManager.getPlayerHitBox();
+    }
+
+    public void attackPlayer(int damage) {
+        playerManager.attackPlayer(damage);
+    }
+
+    public void attackEnemy(Rectangle2D.Double attackBox, int damage) {
+        enemyManager.attackEnemy(attackBox, damage);
     }
 }

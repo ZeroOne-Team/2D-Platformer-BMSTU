@@ -4,6 +4,7 @@ import gamestates.playingstates.EnumPlayState;
 import playing.PlayingDrawInterface;
 import playing.PlayingGame;
 import playing.PlayingUpdateInterface;
+import playing.entities.EntityLevelManager;
 import playing.entities.player.Player;
 import playing.levels.Level;
 
@@ -12,19 +13,21 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterface {
-    private PlayingGame playingGame;
+    private EntityLevelManager entityLevelManager;
 
     private ArrayList<Spike> spikes;
     private ArrayList<Portal> portals;
+    private ArrayList<Coin> coins;
 
-    public ObjectManager(PlayingGame playingGame, Level level) {
-        this.playingGame = playingGame;
+    public ObjectManager(EntityLevelManager entityLevelManager, Level level) {
+        this.entityLevelManager = entityLevelManager;
         loadObjects(level);
     }
 
     private void loadObjects(Level level) {
         spikes = level.getSpikes();
         portals = level.getPortals();
+        coins = level.getCoins();
     }
 
     @Override
@@ -36,13 +39,20 @@ public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterfa
         for (Portal portal : portals) {
             portal.update();
         }
+        for (Coin coin : coins) {
+            if (coin.isActive()) {
+                coin.update();
+            }
+        }
     }
 
     @Override
     public void draw(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         drawTraps(g, scale, lvlOffsetX, lvlOffsetY);
         drawPortals(g, scale, lvlOffsetX, lvlOffsetY);
+        drawCoins(g, scale, lvlOffsetX, lvlOffsetY);
     }
+
 
     private void drawTraps(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         for (Spike spike : spikes) {
@@ -56,6 +66,14 @@ public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterfa
         }
     }
 
+    private void drawCoins(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
+        for (Coin coin : coins) {
+            if (coin.isActive()) {
+                coin.draw(g, scale, lvlOffsetX, lvlOffsetY);
+            }
+        }
+    }
+
     public void checkSpikesTouched(Player p) {
         for (Spike s : spikes) {
             if (s.getHitBox().intersects(p.getHitBox())) {
@@ -64,10 +82,23 @@ public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterfa
         }
     }
 
+    public void checkCoinsTouched(Player p) {
+        for (Coin coin : coins) {
+            if (coin.isActive()) {
+                if (coin.getHitBox().intersects(p.getHitBox())) {
+                    p.addCoin();
+                    coin.setActive(false);
+                }
+            }
+        }
+    }
+
     public void checkPortalTouched(Player p) {
         for (Portal portal : portals) {
             if (portal.getHitBox().intersects(p.getHitBox())) {
-                EnumPlayState.state = EnumPlayState.LVL_COMPLETED;
+                if (p.getCoins() == coins.size()) {
+                    EnumPlayState.state = EnumPlayState.LVL_COMPLETED;
+                }
             }
         }
     }
