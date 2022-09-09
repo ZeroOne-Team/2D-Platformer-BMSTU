@@ -19,6 +19,8 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
 
     private PlayerModuleManager playerModuleManager;
 
+    private int coin = 0;
+
     public Player(PlayerManager playerManager, int x, int y) {
         super(x, y, 20, 27);
         this.playerManager = playerManager;
@@ -78,5 +80,9 @@ public class Player extends Entity implements PlayingUpdateInterface, PlayingDra
 
     public void attackEnemy(Rectangle2D.Double attackBox, int damage) {
         playerManager.attackEnemy(attackBox, damage);
+    }
+
+    public void addCoin() {
+        coin++;
     }
 }

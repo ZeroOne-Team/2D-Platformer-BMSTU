@@ -22,7 +22,9 @@ public class Constants {
 
     public static class GameConstants {
         public final static float GRAVITY = 0.035f;
-        public static final float ANI_SPEED = 25;
+        public static final float ANI_SPEED_ENEMY = 25;
+
+        public static final float ANI_SPEED_OBJECT = 50;
 
     }
 
@@ -105,6 +107,7 @@ public class Constants {
                 public static final int OBJECT_INDEX_SPIKE_UP = 2;
                 public static final int OBJECT_INDEX_SPIKE_LEFT = 3;
                 public static final int OBJECT_INDEX_SPIKE_RIGHT = 4;
+                public static final int OBJECT_INDEX_COIN = 65;
                 public static final int OBJECT_INDEX_PORTAL = 108;
             }
 
@@ -124,6 +127,11 @@ public class Constants {
             public static final class Portal {
                 public static final int PORTAL_WIDTH_DEFAULT = 32;
                 public static final int PORTAL_HEIGHT_DEFAULT = 64;
+            }
+
+            public static final class Coin {
+                public static final int COIN_WIDTH_DEFAULT = 32;
+                public static final int COIN_HEIGHT_DEFAULT = 32;
             }
 
             public static final class CRABBY {
@@ -191,6 +199,8 @@ public class Constants {
             public static final String LVL_BACKGROUND_PNG = "lvl_background.png";
             public static final String LVL_CLOUDS_BIG_PNG = "lvl_clouds_big.png";
             public static final String LVL_CLOUDS_SMALL_PNG = "lvl_clouds_small.png";
+            public static final String LVL_KONOVALOV_PNG = "lvl_konovalov.png";
+            public static final String LVL_MADINA_PNG = "lvl_madina.png";
 
         }
 
@@ -205,6 +215,7 @@ public class Constants {
         public static final class Entity {
             public static final String ENTITY_LOCATION_TEXTURES = "entity";
 
+            public static final String COIN_ATLAS_PNG = "coin_atlas.png";
             public static final String TRAP_ATLAS_PNG = "trap_atlas.png";
             public static final String PORTAL_ATLAS_PNG = "portal_atlas.png";
             public static final String CRABBY_SPRITE_PNG = "crabby_sprite.png";

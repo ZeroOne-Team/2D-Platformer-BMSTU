@@ -17,6 +17,7 @@ public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterfa
 
     private ArrayList<Spike> spikes;
     private ArrayList<Portal> portals;
+    private ArrayList<Coin> coins;
 
     public ObjectManager(EntityLevelManager entityLevelManager, Level level) {
         this.entityLevelManager = entityLevelManager;
@@ -26,6 +27,7 @@ public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterfa
     private void loadObjects(Level level) {
         spikes = level.getSpikes();
         portals = level.getPortals();
+        coins = level.getCoins();
     }
 
     @Override
@@ -37,13 +39,20 @@ public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterfa
         for (Portal portal : portals) {
             portal.update();
         }
+        for (Coin coin : coins) {
+            if (coin.isActive()) {
+                coin.update();
+            }
+        }
     }
 
     @Override
     public void draw(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         drawTraps(g, scale, lvlOffsetX, lvlOffsetY);
         drawPortals(g, scale, lvlOffsetX, lvlOffsetY);
+        drawCoins(g, scale, lvlOffsetX, lvlOffsetY);
     }
+
 
     private void drawTraps(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         for (Spike spike : spikes) {
@@ -57,10 +66,29 @@ public class ObjectManager implements PlayingUpdateInterface, PlayingDrawInterfa
         }
     }
 
+    private void drawCoins(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
+        for (Coin coin : coins) {
+            if (coin.isActive()) {
+                coin.draw(g, scale, lvlOffsetX, lvlOffsetY);
+            }
+        }
+    }
+
     public void checkSpikesTouched(Player p) {
         for (Spike s : spikes) {
             if (s.getHitBox().intersects(p.getHitBox())) {
                 p.kill();
+            }
+        }
+    }
+
+    public void checkCoinsTouched(Player p) {
+        for (Coin coin : coins) {
+            if (coin.isActive()) {
+                if (coin.getHitBox().intersects(p.getHitBox())) {
+                    p.addCoin();
+                    coin.setActive(false);
+                }
             }
         }
     }
