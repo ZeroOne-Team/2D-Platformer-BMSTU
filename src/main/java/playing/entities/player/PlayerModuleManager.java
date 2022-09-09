@@ -150,4 +150,12 @@ public class PlayerModuleManager implements PlayingUpdateInterface, PlayingDrawI
     public void kill() {
         playerAnimation.setAnimationState(PlayerAnimation.AnimationState.DEAD);
     }
+
+    public void addCoin() {
+        playerStatusBar.addCoin();
+    }
+
+    public int getCoins() {
+        return playerStatusBar.getCoins();
+    }
 }

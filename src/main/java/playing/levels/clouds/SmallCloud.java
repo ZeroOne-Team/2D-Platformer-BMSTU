@@ -19,7 +19,7 @@ public class SmallCloud extends Cloud {
     }
 
     private void loadCloudImg() {
-        cloud = LoadSave.GetSpriteAtlas(LEVEL_LOCATION_TEXTURES, LVL_MADINA_PNG);
+        cloud = LoadSave.GetSpriteAtlas(LEVEL_LOCATION_TEXTURES, LVL_CLOUDS_SMALL_PNG);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class SmallCloud extends Cloud {
         g.drawImage(cloud,
                 (int) ((hitBox.x) * scale),
                 (int) (hitBox.y * scale),
-                (int) (100 * scale),
-                (int) (100 * scale),
+                (int) (SMALL_CLOUD_WIDTH_DEFAULT * scale),
+                (int) (SMALL_CLOUD_HEIGHT_DEFAULT * scale),
                 null);
     }
 
